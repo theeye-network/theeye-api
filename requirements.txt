@@ -5,7 +5,6 @@ flask
 flask-pymongo
 prettytable
 bson
-email
 dnspython
 pymongo
 ssl
