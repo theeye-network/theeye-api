@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 from typing import Dict
 from fastapi.middleware.cors import CORSMiddleware
 from flask import Flask, flash, redirect, render_template, request, session
+from fastapi.responses import JSONResponse
 
 from datetime import datetime, timedelta
 
@@ -150,7 +151,7 @@ def home():
     for i in mongo.db.webpage.find({"type":"announcement"}):
         announcements.append(f'{str(i.get("details"))}')
 
-    return {"HOF": HOF, "announcements": announcements}
+    return JSONResponse(content={"HOF": HOF, "announcements": announcements})
 
 
 @app.get("/listOfLinks/{theType}")
@@ -170,7 +171,7 @@ def listOfLinks(theType: LinksType):
     except:
         rel = []
 
-    return {"type": typeTyper[theType], "list": rel}
+    return JSONResponse(content={"type": typeTyper[theType], "list": rel})
 
 @app.get("/blog")
 def blog():
@@ -182,7 +183,7 @@ def blog():
         del i["_id"]
         i["content"] = i["content"][:65] + "..."
         rell.append(i)
-    return {"posts": rell}
+    return JSONResponse(content={"posts": rell})
 
 
 @app.get("/blog/{post_id}")
@@ -191,7 +192,7 @@ def blogPost(post_id: str):
     rel = mongo.db.webpage.find_one({"_id":ObjectId(post_id)})
     del rel["_id"]
 
-    return {"post": rel}
+    return JSONResponse(content={"post": rel})
 
 @app.post("/increp")
 def increp(incidentFrm: incidentForm):
@@ -204,7 +205,7 @@ def increp(incidentFrm: incidentForm):
 Hey,
 A new incident has been reported using the form on the website.
 Here are the details\n<pre>\n{x}</pre>\nPlease revert ASAP.''')
-    return {"message": "Recieved"}
+    return JSONResponse(content={"message": "Recieved"})
 
 @app.post("/vulnrep")
 def vulnrep(vulnFrm: vulnerabilityForm):
@@ -217,7 +218,7 @@ def vulnrep(vulnFrm: vulnerabilityForm):
 Hey,
 A new vulnerability has been reported using the form on the website.
 Here are the details\n<pre>\n{x}</pre>\nPlease revert ASAP.''')
-    return {"message": "Recieved"}
+    return JSONResponse(content={"message": "Recieved"})
 
 if __name__=="__main__":
 	uvicorn.run(app, host='0.0.0.0', port=9750)
