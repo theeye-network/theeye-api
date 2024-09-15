@@ -7,5 +7,4 @@ prettytable
 bson
 dnspython
 pymongo
-ssl
 smtplib
