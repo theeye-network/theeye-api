@@ -1,8 +1,8 @@
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from time import time
+from fastapi import FastAPI, __version__
 
 app = FastAPI()
 
-@app.get("/test")
-def test():
-    return JSONResponse(content={"message": "This is a test response"})
+@app.get('/ping')
+async def hello():
+    return {'res': 'pong', 'version': __version__, "time": time()}
