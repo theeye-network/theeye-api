@@ -1,0 +1,12 @@
+uvicorn
+fastapi
+pydantic
+flask
+flask-pymongo
+prettytable
+bson
+email
+dnspython
+pymongo
+ssl
+smtplib
